@@ -1,4 +1,8 @@
+"" Initialization
 call pathogen#infect()          " Load Pathogen
+
+set backupdir=~/.vim/_backup    " where to put backup files.
+set directory=~/.vim/_temp      " where to put swap files.
 
 let mapleader=","
 
@@ -10,7 +14,7 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 
-"" Whitespace
+"" Whitespace and Files
 set nowrap                      " don't wrap lines
 set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
@@ -26,7 +30,7 @@ if has("autocmd")
   " In Makefiles, use real tabs, not tabs expanded to spaces
   au FileType make set noexpandtab
 
-  " Make sure all mardown files have the correct filetype set and setup wrapping
+  " Make sure all markdown files have the correct filetype set and setup wrapping
   au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown | call s:setupWrapping()
 
   " Treat JSON files like JavaScript
@@ -57,14 +61,24 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-:nnoremap <CR> :nohlsearch<cr>  " clear search on return
+nnoremap <CR> :nohlsearch<cr>  " clear search on return
 
-set backupdir=~/.vim/_backup    " where to put backup files.
-set directory=~/.vim/_temp      " where to put swap files.
+"" Command-T 
+map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 
-"" CtrlP
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so
+let g:CommandTMaxHeight=15
+let g:CommandTMaxFiles=20000
+let g:CommandTCancelMap=['<C-c>']
 
+"" Status- and Powerline
 if has("statusline") && !&cp
   set laststatus=2  " always show the status bar
 endif
+
+let g:Powerline_cache_file=$HOME+"/.vim/Powerline.cache"
