@@ -8,6 +8,9 @@ set visualbell
 " Start without the toolbar
 set guioptions-=T
 
+" Hide CommandT with Esc
+let g:CommandTCancelMap=['<C-c', '<Esc>']
+
 if has("gui_macvim")
   " Fullscreen takes up entire screen
   set fuoptions=maxhorz,maxvert
