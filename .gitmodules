@@ -43,3 +43,9 @@
 [submodule "bundle/markdown"]
 	path = bundle/markdown
 	url = git://github.com/tpope/vim-markdown.git
+[submodule "bundle/turbomux"]
+	path = bundle/turbomux
+	url = git://github.com/jgdavey/vim-turbux.git
+[submodule "bundle/tslime"]
+	path = bundle/tslime
+	url = git://github.com/xaviershay/tslime.vim.git
