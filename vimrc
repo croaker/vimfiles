@@ -83,3 +83,18 @@ endif
 
 let g:Powerline_cache_file=expand("~/.vim/_temp/Powerline.cache")
 let g:Powerline_symbols = "fancy"
+
+" CoffeeScript for TagBar
+let g:tagbar_type_coffee = {
+  \ 'kinds' : [
+  \   'f:functions',
+  \   'o:object'
+  \ ],
+  \ 'kind2scope' : {
+  \  'f' : 'object',
+  \   'o' : 'object'
+  \},
+  \ 'sro' : ".",
+  \ 'ctagsbin' : 'coffeetags',
+  \ 'ctagsargs' : '--include-vars ',
+  \}

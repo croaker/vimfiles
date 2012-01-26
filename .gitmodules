@@ -64,3 +64,6 @@
 [submodule "bundle/tagbar"]
 	path = bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
+[submodule "bundle/align"]
+	path = bundle/align
+	url = git://github.com/tsaleh/vim-align.git
