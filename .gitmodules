@@ -25,9 +25,6 @@
 [submodule "bundle/rails"]
 	path = bundle/rails
 	url = git://github.com/tpope/vim-rails.git
-[submodule "bundle/ruby"]
-	path = bundle/ruby
-	url = git://github.com/vim-ruby/vim-ruby.git
 [submodule "bundle/scss"]
 	path = bundle/scss
 	url = git://github.com/cakebaker/scss-syntax.vim.git
@@ -79,3 +76,12 @@
 [submodule "bundle/rspec"]
 	path = bundle/rspec
 	url = git://github.com/skwp/vim-rspec.git
+[submodule "bundle/css3"]
+	path = bundle/css3
+	url = git://github.com/hail2u/vim-css3-syntax.git
+[submodule "bundle/less"]
+	path = bundle/less
+	url = git://github.com/groenewege/vim-less.git
+[submodule "bundle/ruby"]
+	path = bundle/ruby
+	url = git://github.com/vim-ruby/vim-ruby.git
