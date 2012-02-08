@@ -40,9 +40,6 @@
 [submodule "bundle/markdown"]
 	path = bundle/markdown
 	url = git://github.com/tpope/vim-markdown.git
-[submodule "bundle/turbomux"]
-	path = bundle/turbomux
-	url = git://github.com/jgdavey/vim-turbux.git
 [submodule "bundle/tslime"]
 	path = bundle/tslime
 	url = git://github.com/xaviershay/tslime.vim.git
@@ -67,3 +64,18 @@
 [submodule "bundle/align"]
 	path = bundle/align
 	url = git://github.com/tsaleh/vim-align.git
+[submodule "bundle/css-colors"]
+	path = bundle/css-colors
+	url = git://github.com/ap/vim-css-color.git
+[submodule "bundle/cucumber"]
+	path = bundle/cucumber
+	url = git://github.com/tpope/vim-cucumber.git
+[submodule "bundle/nodejs"]
+	path = bundle/nodejs
+	url = git://github.com/mmalecki/vim-node.js.git
+[submodule "bundle/puppet"]
+	path = bundle/puppet
+	url = git://github.com/ajf/puppet-vim.git
+[submodule "bundle/rspec"]
+	path = bundle/rspec
+	url = git://github.com/skwp/vim-rspec.git

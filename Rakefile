@@ -4,10 +4,12 @@ task :update do
   sh "git submodule update --init"
 end
 
+desc "Updates all submodules to the latest version"
 task :pull_submodules do
-  sh "git submodules foreach git pull"
+  sh "git submodule foreach git pull"
 end
 
+desc "Install the coffee-tags gem (for TagBar)"
 task :install_coffeetags do
   sh "gem install CoffeeTags"
 end

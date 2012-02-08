@@ -13,6 +13,10 @@ syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
+set number
+
+"" Mouse
+set mouse=a
 
 "" Whitespace and Files
 set nowrap                      " don't wrap lines
@@ -63,19 +67,6 @@ set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 nnoremap <CR> :nohlsearch<cr>  " clear search on return
 
-"" Command-T 
-" map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-" map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-" map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-" map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-" map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-" map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-" map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-
-" let g:CommandTMaxHeight=15
-" let g:CommandTMaxFiles=20000
-" let g:CommandTCancelMap=['<C-c>']
-
 "" Status- and Powerline
 if has("statusline") && !&cp
   set laststatus=2  " always show the status bar
@@ -84,7 +75,7 @@ endif
 let g:Powerline_cache_file=expand("~/.vim/_temp/Powerline.cache")
 let g:Powerline_symbols = "fancy"
 
-" CoffeeScript for TagBar
+"" TagBar
 let g:tagbar_type_coffee = {
   \ 'kinds' : [
   \   'f:functions',
@@ -98,3 +89,13 @@ let g:tagbar_type_coffee = {
   \ 'ctagsbin' : 'coffeetags',
   \ 'ctagsargs' : '--include-vars ',
   \}
+
+"" NERDTree
+map <silent><leader>n :NERDTreeToggle<CR>
+
+let NERDTreeDirArrows = 0
+let NERDTreeMinimalUI = 1
+
+"" Moving around
+map <silent><leader>tn :tabnext<CR>
+map <silent><leader>tp :tabprev<CR>
