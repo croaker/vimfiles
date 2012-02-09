@@ -15,6 +15,9 @@ set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
 
+"" Cursorline
+hi CursorLine cterm=NONE term=NONE
+
 "" Mouse
 set mouse=a
 
