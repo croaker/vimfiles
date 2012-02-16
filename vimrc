@@ -70,6 +70,19 @@ set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 nnoremap <CR> :nohlsearch<cr>  " clear search on return
 
+"" Command-T 
+map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+
+let g:CommandTMaxHeight=15
+let g:CommandTMaxFiles=20000
+let g:CommandTCancelMap=['<C-c>', '<ESC>']
+
 "" Status- and Powerline
 if has("statusline") && !&cp
   set laststatus=2  " always show the status bar
