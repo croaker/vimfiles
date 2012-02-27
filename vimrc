@@ -1,4 +1,5 @@
 "" Initialization
+set nocp
 call pathogen#infect()          " Load Pathogen
 
 set backupdir=~/.vim/_backup    " where to put backup files.
@@ -8,12 +9,16 @@ let mapleader=","
 
 color mustang
 
-set nocompatible                " choose no compatibility with legacy vi
 syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
+
+"" HTML Indentation
+" This must be loaded manually since vim doesn't seem to
+" autoload the file. Need to investigate that...
+source ~/.vim/indent/html.vim
 
 "" Cursorline
 hi CursorLine cterm=NONE term=NONE
@@ -26,6 +31,7 @@ set nowrap                      " don't wrap lines
 set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
+set autoindent
 
 function s:setupWrapping()
   set wrap
@@ -34,7 +40,7 @@ function s:setupWrapping()
 endfunction
 
 if has("autocmd")
-  " In Makefiles, use real tabs, not tabs expanded to spaces
+  "  In Makefiles, use real tabs, not tabs expanded to spaces
   au FileType make set noexpandtab
 
   " Make sure all markdown files have the correct filetype set and setup wrapping
@@ -50,6 +56,8 @@ if has("autocmd")
   " see :help last-position-jump
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g`\"" | endif
+
+  au BufRead,BufNewFile *.html source ~/.vim/indent/html_grb.vim
 endif
 
 " List chars
@@ -68,7 +76,7 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-nnoremap <CR> :nohlsearch<cr>  " clear search on return
+nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
 
 "" Command-T 
 map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
@@ -82,6 +90,8 @@ map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 let g:CommandTMaxHeight=15
 let g:CommandTMaxFiles=20000
 let g:CommandTCancelMap=['<C-c>', '<ESC>']
+let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 
 "" Status- and Powerline
 if has("statusline") && !&cp
@@ -111,7 +121,62 @@ map <silent><leader>n :NERDTreeToggle<CR>
 
 let NERDTreeDirArrows = 0
 let NERDTreeMinimalUI = 1
+let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o', '\~$']
+let NERDTreeHijackNetrw = 0
+
+augroup AuNERDTreeCmd
+autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
+autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
+
+" If the parameter is a directory, cd into it
+function s:CdIfDirectory(directory)
+  let explicitDirectory = isdirectory(a:directory)
+  let directory = explicitDirectory || empty(a:directory)
+
+  if explicitDirectory
+    exe "cd " . fnameescape(a:directory)
+  endif
+
+  " Allows reading from stdin
+  " ex: git diff | mvim -R -
+  if strlen(a:directory) == 0
+    return
+  endif
+
+  if directory
+    NERDTree
+    wincmd p
+    bd
+  endif
+
+  if explicitDirectory
+    wincmd p
+  endif
+endfunction
+
+" NERDTree utility function
+function s:UpdateNERDTree(...)
+  let stay = 0
+
+  if(exists("a:1"))
+    let stay = a:1
+  end
+
+  if exists("t:NERDTreeBufName")
+    let nr = bufwinnr(t:NERDTreeBufName)
+    if nr != -1
+      exe nr . "wincmd w"
+      exe substitute(mapcheck("R"), "<CR>", "", "")
+      if !stay
+        wincmd p
+      end
+    endif
+  endif
+endfunction
 
 "" Moving around
 map <silent><leader>tn :tabnext<CR>
 map <silent><leader>tp :tabprev<CR>
+
+" Indent p tags
+autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
