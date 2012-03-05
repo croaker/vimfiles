@@ -79,19 +79,50 @@ set smartcase                   " ... unless they contain at least one capital l
 nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
 
 "" Command-T 
-map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+" map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+" map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+" map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+" map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+" map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+" map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+" map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 
-let g:CommandTMaxHeight=15
-let g:CommandTMaxFiles=20000
-let g:CommandTCancelMap=['<C-c>', '<ESC>']
-let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
+" let g:CommandTMaxHeight=15
+" let g:CommandTMaxFiles=20000
+" let g:CommandTCancelMap=['<C-c>', '<ESC>']
+" let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+" let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
+
+"" CtrlP etc
+function! ShowRoutes()
+  " Requires 'scratch' plugin
+  :topleft 100 :split __Routes__
+  " Make sure Vim doesn't write __Routes__ as a file
+  :set buftype=nofile
+  " Delete everything
+  :normal 1GdG
+  " Put routes output in buffer
+  :0r! rake -s routes
+  " Size window to number of lines (1 plus rake output length)
+  :exec ":normal " . line("$") . _ "
+  " Move cursor to bottom
+  :normal 1GG
+  " Delete empty trailing line
+  :normal dd
+endfunction
+map <leader>gR :call ShowRoutes()<cr>
+map <leader>gv :CtrlP app/views<cr>
+map <leader>gc :CtrlP app/controllers<cr>
+map <leader>gm :CtrlP app/models<cr>
+map <leader>gh :CtrlP app/helpers<cr>
+map <leader>gl :CtrlP lib<cr>
+map <leader>gj :CtrlP app/assets/javascripts<cr>
+map <leader>gs :CtrlP app/assets/stylesheets<cr>
+map <leader>gf :CtrlP features<cr>
+map <leader>gg :topleft 100 :split Gemfile<cr>
+map <leader>gt :CtrlPTag<cr>
+map <leader>f :CtrlP<cr>
+map <leader>F :CtrlP %%<cr>
 
 "" Status- and Powerline
 if has("statusline") && !&cp
