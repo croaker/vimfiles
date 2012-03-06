@@ -6,9 +6,8 @@ let g:ctrlp_extensions = ["tag"]
 let g:ctrlp_max_height = 15
 cal pathogen#infect()          " Load Pathogen
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-  \ 'file': '\.exe$\|\.so$\|\.dll$\|\.git.*$',
-  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.bin$\|\.bundle$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$\|\.git\|\.DS_Store$\|\.rspec$'
   \ }
 
 set backupdir=~/.vim/_backup    " where to put backup files.
