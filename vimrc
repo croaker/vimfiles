@@ -1,6 +1,15 @@
 "" Initialization
 set nocp
-call pathogen#infect()          " Load Pathogen
+
+"" CtrlP Settings
+let g:ctrlp_extensions = ["tag"]
+let g:ctrlp_max_height = 15
+cal pathogen#infect()          " Load Pathogen
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$\|\.git.*$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
 
 set backupdir=~/.vim/_backup    " where to put backup files.
 set directory=~/.vim/_temp      " where to put swap files.
@@ -93,7 +102,6 @@ nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
 " let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
 " let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 
-"" CtrlP etc
 function! ShowRoutes()
   " Requires 'scratch' plugin
   :topleft 100 :split __Routes__
@@ -111,11 +119,14 @@ function! ShowRoutes()
   :normal dd
 endfunction
 map <leader>gR :call ShowRoutes()<cr>
+
+"" CtrlP Key Bindings
 map <leader>gv :CtrlP app/views<cr>
 map <leader>gc :CtrlP app/controllers<cr>
 map <leader>gm :CtrlP app/models<cr>
 map <leader>gh :CtrlP app/helpers<cr>
 map <leader>gl :CtrlP lib<cr>
+map <leader>ga :CtrlP app/assets<cr>
 map <leader>gj :CtrlP app/assets/javascripts<cr>
 map <leader>gs :CtrlP app/assets/stylesheets<cr>
 map <leader>gf :CtrlP features<cr>
