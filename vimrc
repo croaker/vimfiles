@@ -1,6 +1,9 @@
 "" Initialization
 set nocp
 
+"" Clipboard
+set clipboard=unnamed
+
 "" CtrlP Settings
 let g:ctrlp_extensions = ["tag"]
 let g:ctrlp_max_height = 15
@@ -85,21 +88,6 @@ set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
-
-"" Command-T 
-" map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-" map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-" map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-" map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-" map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-" map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-" map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-
-" let g:CommandTMaxHeight=15
-" let g:CommandTMaxFiles=20000
-" let g:CommandTCancelMap=['<C-c>', '<ESC>']
-" let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-" let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 
 function! ShowRoutes()
   " Requires 'scratch' plugin
@@ -218,6 +206,10 @@ endfunction
 "" Moving around
 map <silent><leader>tn :tabnext<CR>
 map <silent><leader>tp :tabprev<CR>
+
+"" Paste and NoPaste
+map <silent><leader>ps :set paste<CR>
+map <silent><leader>nps :set nopaste<CR>
 
 " Indent p tags
 autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
