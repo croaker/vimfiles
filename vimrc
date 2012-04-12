@@ -213,3 +213,22 @@ map <silent><leader>nps :set nopaste<CR>
 
 " Indent p tags
 autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
+
+"" vimux
+" Run the current file with rspec
+map <leader>rb :call RunVimTmuxCommand("clear; rspec " . bufname("%"))<CR>
+
+" Prompt for a command to run
+map <leader>rp :PromptVimTmuxCommand<CR>
+
+" Run last command executed by RunVimTmuxCommand
+map <leader>rl :RunLastVimTmuxCommand<CR>
+
+" Inspect runner pane
+map <leader>ri :InspectVimTmuxRunner<CR>
+
+" Close all other tmux panes in current window
+map <leader>rx :CloseVimTmuxPanes<CR>
+
+" Interrupt any command running in the runner pane
+map <leader>rs :InterruptVimTmuxRunner<CR>
