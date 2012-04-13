@@ -91,3 +91,6 @@
 [submodule "bundle/vitality"]
 	path = bundle/vitality
 	url = git://github.com/sjl/vitality.vim.git
+[submodule "bundle/clam"]
+	path = bundle/clam
+	url = git://github.com/sjl/clam.vim.git
