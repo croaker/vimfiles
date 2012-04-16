@@ -94,3 +94,6 @@
 [submodule "bundle/clam"]
 	path = bundle/clam
 	url = git://github.com/sjl/clam.vim.git
+[submodule "bundle/badwolf-colors"]
+	path = bundle/badwolf-colors
+	url = git://github.com/sjl/badwolf.git
