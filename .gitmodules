@@ -97,3 +97,6 @@
 [submodule "bundle/badwolf-colors"]
 	path = bundle/badwolf-colors
 	url = git://github.com/sjl/badwolf.git
+[submodule "bundle/solarized"]
+	path = bundle/solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
