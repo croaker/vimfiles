@@ -232,3 +232,13 @@ map <leader>rx :CloseVimTmuxPanes<CR>
 
 " Interrupt any command running in the runner pane
 map <leader>rs :InterruptVimTmuxRunner<CR>
+
+"" Syntax Highlighting
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-s> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
