@@ -1,4 +1,4 @@
-task :default => [:tmp_dirs, :update, :install_coffeetags, :command_t, :link]
+task :default => [:tmp_dirs, :update, :link]
 
 task :update do
   sh "git submodule update --init"
@@ -7,11 +7,6 @@ end
 desc "Updates all submodules to the latest version"
 task :pull_submodules do
   sh "git submodule foreach git pull"
-end
-
-desc "Install the coffee-tags gem (for TagBar)"
-task :install_coffeetags do
-  sh "gem install CoffeeTags"
 end
 
 task :link do
@@ -28,18 +23,4 @@ end
 task :tmp_dirs do
   mkdir_p "_backup"
   mkdir_p "_temp"
-end
-
-task :command_t do
-  puts "Compiling Command-T plugin..."
-  Dir.chdir "bundle/command_t/ruby/command-t" do
-    # first try to read which ruby version is vim compiled against
-    read_version = %{require "rbconfig"; print File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"])}
-    ruby = `vim --cmd 'ruby #{read_version}' --cmd 'q' 2>&1 >/dev/null | grep -v 'Vim: Warning'`.strip
-    # fall back to system rubies
-    ruby = %w[/usr/bin/ruby1.8 /usr/bin/ruby].find {|rb| File.executable? rb } || 'ruby' if ruby.empty?
-    cmd = Array(ruby) + %w[extconf.rb]
-    sh(*cmd)
-    sh "make clean && make"
-  end
 end
