@@ -18,7 +18,7 @@ set directory=~/.vim/_temp      " where to put swap files.
 
 let mapleader=","
 
-color mustang
+color badwolf
 
 syntax enable
 set encoding=utf-8
@@ -130,21 +130,6 @@ endif
 let g:Powerline_cache_file=expand("~/.vim/_temp/Powerline.cache")
 let g:Powerline_symbols = "fancy"
 
-"" TagBar
-let g:tagbar_type_coffee = {
-  \ 'kinds' : [
-  \   'f:functions',
-  \   'o:object'
-  \ ],
-  \ 'kind2scope' : {
-  \  'f' : 'object',
-  \   'o' : 'object'
-  \},
-  \ 'sro' : ".",
-  \ 'ctagsbin' : 'coffeetags',
-  \ 'ctagsargs' : '--include-vars ',
-  \}
-
 "" NERDTree
 map <silent><leader>n :NERDTreeToggle<CR>
 
@@ -187,7 +172,7 @@ endfunction
 function s:UpdateNERDTree(...)
   let stay = 0
 
-  if(exists("a:1"))
+  if exists("a:1")
     let stay = a:1
   end
 

@@ -100,3 +100,6 @@
 [submodule "bundle/solarized"]
 	path = bundle/solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "bundle/railscasts-sexy"]
+	path = bundle/railscasts-sexy
+	url = git://github.com/oguzbilgic/sexy-railscasts-theme.git
