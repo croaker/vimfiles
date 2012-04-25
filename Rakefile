@@ -31,7 +31,12 @@ task :command_t do
     # first try to read which ruby version is vim compiled against
     read_version = %{require "rbconfig"; print File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"])}
     ruby = `vim --cmd 'ruby #{read_version}' --cmd 'q' 2>&1 >/dev/null | grep -v 'Vim: Warning'`.strip
-    ruby = %w(/usr/bin/ruby1.8 /usr/bin/ruby /usr/local/bin/ruby).find {|rb| File.executable? rb } || 'ruby' unless File.executable?(ruby)
+
+    # If we don't have a working ruby, detect one
+    unless File.executable?(ruby)
+        ruby = %w(/usr/bin/ruby /usr/local/bin/ruby /usr/bin/ruby1.8).find {|rb| File.executable? rb } || 'ruby'
+    end
+
     cmd = [ruby, 'extconf.rb']
     sh(*cmd)
     sh "make clean && make"
