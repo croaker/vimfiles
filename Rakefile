@@ -12,11 +12,18 @@ end
 task :link do
   %w[vimrc gvimrc].each do |script|
     dotfile = File.join(ENV['HOME'], ".#{script}")
-    if File.exist? dotfile
-      warn "~/.#{script} already exists"
-    else
-      ln_s File.join('.vim', script), dotfile
+    
+    if File.exist?(dotfile)
+      if File.symlink?(dotfile)
+        puts "~/.#{script} already linked, skipping.."
+        next
+      else
+        puts "~/.#{script} exists, backing up and replacing!"
+        mv dotfile, "#{dotfile}.#{Time.now.to_i}"
+      end
     end
+      
+    ln_s File.join('.vim', script), dotfile
   end
 end
 
@@ -34,7 +41,7 @@ task :command_t do
 
     # If we don't have a working ruby, detect one
     unless File.executable?(ruby)
-        ruby = %w(/usr/bin/ruby /usr/local/bin/ruby /usr/bin/ruby1.8).find {|rb| File.executable? rb } || 'ruby'
+      ruby = %w(/usr/bin/ruby /usr/local/bin/ruby /usr/bin/ruby1.8).find {|rb| File.executable? rb } || 'ruby'
     end
 
     cmd = [ruby, 'extconf.rb']
