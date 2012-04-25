@@ -41,7 +41,8 @@ task :command_t do
 
     # If we don't have a working ruby, detect one
     unless File.executable?(ruby)
-      ruby = %w(/usr/bin/ruby /usr/local/bin/ruby /usr/bin/ruby1.8).find {|rb| File.executable? rb } || 'ruby'
+      # This tries to prefer custom rubies
+      ruby = %w(/usr/local/bin/ruby /usr/bin/ruby /usr/bin/ruby1.8).find {|rb| File.executable? rb } || 'ruby'
     end
 
     cmd = [ruby, 'extconf.rb']
