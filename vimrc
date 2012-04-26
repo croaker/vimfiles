@@ -79,7 +79,7 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-nnoremap <cr> :nohlsearch<cr>  " clear search on return
+nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
 
 "" Open files in the dir of the current file
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -145,7 +145,13 @@ map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 let g:CommandTMaxHeight=15
 let g:CommandTMaxFiles=20000
-let g:CommandTCancelMap=['<C-c>', '<ESC>']
+set ttimeoutlen=50
+
+if &term =~ "xterm" || &term =~ "screen"
+  let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
+  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
+endif
 
 "" Status- and Powerline
 if has("statusline") && !&cp
