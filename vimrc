@@ -80,7 +80,7 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
+nnoremap <cr> :nohlsearch<cr>  " clear search on return
 
 "" Open files in the dir of the current file
 cnoremap %% <C-R>=expand('%:h').'/'<cr>

@@ -91,3 +91,6 @@
 [submodule "bundle/command-t"]
 	path = bundle/command-t
 	url = git://github.com/wincent/Command-T.git
+[submodule "bundle/rename"]
+	path = bundle/rename
+	url = git://github.com/danro/rename.vim.git
