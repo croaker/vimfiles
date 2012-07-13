@@ -28,9 +28,6 @@
 [submodule "bundle/ack"]
 	path = bundle/ack
 	url = git://github.com/mileszs/ack.vim.git
-[submodule "bundle/supertab"]
-	path = bundle/supertab
-	url = git://github.com/ervandew/supertab.git
 [submodule "bundle/markdown"]
 	path = bundle/markdown
 	url = git://github.com/tpope/vim-markdown.git
@@ -70,9 +67,6 @@
 [submodule "bundle/ruby"]
 	path = bundle/ruby
 	url = git://github.com/vim-ruby/vim-ruby.git
-[submodule "bundle/vimux"]
-	path = bundle/vimux
-	url = git://github.com/benmills/vimux.git
 [submodule "bundle/clam"]
 	path = bundle/clam
 	url = git://github.com/sjl/clam.vim.git

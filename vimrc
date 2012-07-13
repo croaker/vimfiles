@@ -19,11 +19,6 @@ set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
 
-"" HTML Indentation
-" This must be loaded manually since vim doesn't seem to
-" autoload the file. Need to investigate that...
-source ~/.vim/indent/html.vim
-
 "" Cursorline
 hi CursorLine cterm=NONE term=NONE
 
@@ -74,6 +69,11 @@ set listchars+=precedes:<         " The character to show in the last column whe
                                   " off and the line continues beyond the right of the screen
 " provide some context when editing
 set scrolloff=3
+
+"" Completion
+imap <Tab> <C-P>
+set complete=.,b,u,]
+set wildmode=longest,list:longest
 
 "" Searching
 set hlsearch                    " highlight matches
