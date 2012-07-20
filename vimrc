@@ -70,11 +70,6 @@ set listchars+=precedes:<         " The character to show in the last column whe
 " provide some context when editing
 set scrolloff=3
 
-"" Completion
-imap <Tab> <C-P>
-set complete=.,b,u,]
-set wildmode=longest,list:longest
-
 "" Searching
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching

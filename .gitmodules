@@ -85,3 +85,6 @@
 [submodule "bundle/rename"]
 	path = bundle/rename
 	url = git://github.com/danro/rename.vim.git
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = git://github.com/ervandew/supertab.git
