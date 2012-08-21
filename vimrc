@@ -29,11 +29,6 @@ noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
 
-"" HTML Indentation
-" This must be loaded manually since vim doesn't seem to
-" autoload the file. Need to investigate that...
-source ~/.vim/indent/html.vim
-
 "" Cursorline
 hi CursorLine cterm=NONE term=NONE
 
@@ -90,7 +85,7 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-nnoremap <cr><cr> :nohlsearch<cr>  " clear search on return
+nnoremap <cr> :nohlsearch<cr>  " clear search on return
 
 "" Open files in the dir of the current file
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -147,12 +142,15 @@ map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
 map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets/sass<cr>
+map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts
+map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
 map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+
+set wildignore+=vendor/*,build/*
 
 let g:CommandTMaxHeight=15
 let g:CommandTMaxFiles=20000
@@ -173,6 +171,9 @@ endif
 "" Moving around
 map <silent><leader>tn :tabnext<CR>
 map <silent><leader>tp :tabprev<CR>
+
+"" Make :W behave the same as :w
+cnoreabbrev W w
 
 "" Paste and NoPaste
 map <silent><leader>ps :set paste<CR>
@@ -199,13 +200,3 @@ map <leader>rx :CloseVimTmuxPanes<CR>
 
 " Interrupt any command running in the runner pane
 map <leader>rs :InterruptVimTmuxRunner<CR>
-
-"" Syntax Highlighting
-" Show syntax highlighting groups for word under cursor
-nmap <C-S-s> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
