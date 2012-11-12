@@ -180,9 +180,6 @@ cnoreabbrev W w
 map <silent><leader>ps :set paste<CR>
 map <silent><leader>nps :set nopaste<CR>
 
-" Indent p tags
-autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
-
 "" vimux
 " Run the current file with rspec
 map <leader>rb :call RunVimTmuxCommand("clear; rspec " . bufname("%"))<CR>
