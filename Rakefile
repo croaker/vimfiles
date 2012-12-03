@@ -6,13 +6,13 @@ end
 
 desc "Updates all submodules to the latest version"
 task :pull_submodules do
-  sh "git submodule foreach git pull"
+  sh "git submodule foreach git pull origin master"
 end
 
 task :link do
   %w[vimrc gvimrc].each do |script|
     dotfile = File.join(ENV['HOME'], ".#{script}")
-    
+
     if File.exist?(dotfile)
       if File.symlink?(dotfile)
         puts "~/.#{script} already linked, skipping.."
@@ -22,7 +22,7 @@ task :link do
         mv dotfile, "#{dotfile}.#{Time.now.to_i}"
       end
     end
-      
+
     ln_s File.join('.vim', script), dotfile
   end
 end
