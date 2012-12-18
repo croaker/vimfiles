@@ -1,6 +1,6 @@
 "" Initialization
 set nocp
-cal pathogen#infect() 
+cal pathogen#infect()
 
 "" Clipboard
 set clipboard=unnamed
@@ -48,6 +48,21 @@ function s:setupWrapping()
   set textwidth=72
 endfunction
 
+" Removes trailing whitespace
+fun! <SID>StripTrailingWhitespaces()
+  let line = line(".")
+  let col = col(".")
+  let search = @/
+
+  keepjumps %s/\s\+$//e
+
+  let @/=search
+  call cursor(line, col)
+endfun
+
+" Highlight superluous whitespace
+highlight SuperfluousWhitespace ctermbg=red guibg=red
+
 if has("autocmd")
   "  In Makefiles, use real tabs, not tabs expanded to spaces
   au FileType make set noexpandtab
@@ -61,13 +76,22 @@ if has("autocmd")
   " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
   au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
 
-  " Remove trailing whitespace 
-  autocmd FileType ruby,javascipt,coffee,eruby,c,cpp,java,php autocmd BufWritePre <buffer> :%s/\s\+$//e
+  " Remove trailing whitespace
+  autocmd FileType ruby,javascipt,coffee,eruby,c,cpp,java,php,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+  " Highlight superluous whitespace
+  au ColorScheme * highlight SuperfluousWhitespace guibg=red
+  au BufEnter * match SuperfluousWhitespace /\s\+$/
+  au InsertEnter * match SuperfluousWhitespace /\s\+\%#\@<!$/
+  au InsertLeave * match SuperfluousWhitespace /\s\+$/
 
   " Remember last location in file, but not for commit messages.
   " see :help last-position-jump
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g`\"" | endif
+
+  " Close NERDTree if it's the last open window
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 endif
 
 " List chars
@@ -136,7 +160,8 @@ function! ShowRoutes()
   " Delete empty trailing line
   :normal dd
 endfunction
-map <leader>gR :call ShowRoutes()<cr>
+
+map <leader>gr :call ShowRoutes()<cr>
 map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
 map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
 map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
@@ -175,10 +200,6 @@ map <silent><leader>tp :tabprev<CR>
 
 "" Make :W behave the same as :w
 cnoreabbrev W w
-
-"" Paste and NoPaste
-map <silent><leader>ps :set paste<CR>
-map <silent><leader>nps :set nopaste<CR>
 
 "" vimux
 " Run the current file with rspec
