@@ -191,7 +191,7 @@ endif
 "" Status- and Powerline
 if has("statusline") && !&cp
   set laststatus=2  " always show the status bar
-  set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+  set statusline=%<%f\ [%{&ft}]\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 endif
 
 "" Moving around
