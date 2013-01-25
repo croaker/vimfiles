@@ -61,9 +61,6 @@ fun! <SID>StripTrailingWhitespaces()
   call cursor(line, col)
 endfun
 
-" Highlight superluous whitespace
-highlight SuperfluousWhitespace ctermbg=red guibg=red
-
 if has("autocmd")
   "  In Makefiles, use real tabs, not tabs expanded to spaces
   au FileType make set noexpandtab
@@ -80,12 +77,6 @@ if has("autocmd")
   " Remove trailing whitespace
   autocmd FileType ruby,javascipt,coffee,eruby,c,cpp,java,php,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
-  " Highlight superluous whitespace
-  au ColorScheme * highlight SuperfluousWhitespace guibg=red
-  au BufEnter * match SuperfluousWhitespace /\s\+$/
-  au InsertEnter * match SuperfluousWhitespace /\s\+\%#\@<!$/
-  au InsertLeave * match SuperfluousWhitespace /\s\+$/
-
   " Remember last location in file, but not for commit messages.
   " see :help last-position-jump
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
@@ -97,12 +88,14 @@ endif
 
 " List chars
 set listchars=""                  " Reset the listchars
-set listchars=tab:\ \             " a tab should display as "  ", trailing whitespace as "."
 set listchars+=trail:.            " show trailing spaces as dots
 set listchars+=extends:>          " The character to show in the last column when wrap is
                                   " off and the line continues beyond the right of the screen
 set listchars+=precedes:<         " The character to show in the last column when wrap is
                                   " off and the line continues beyond the right of the screen
+set listchars+=tab:\ \
+set list
+
 " provide some context when editing
 set scrolloff=3
 
