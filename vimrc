@@ -36,12 +36,12 @@ hi CursorLine cterm=NONE term=NONE
 set mouse=a
 
 "" Whitespace and Files
-set nowrap                      " don't wrap lines
-set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
-set expandtab                   " use spaces, not tabs (optional)
-set backspace=indent,eol,start  " backspace through everything in insert mode
+set nowrap                               " don't wrap lines
+set tabstop=2 shiftwidth=2               " a tab is two spaces (or set this to 4)
+set expandtab                            " use spaces, not tabs (optional)
+set backspace=indent,eol,start           " backspace through everything in insert mode
 set autoindent
-set colorcolumn=80              " Highlight line 80
+let &colorcolumn=join(range(81,999),",") " Highlight line 80 and above
 
 function s:setupWrapping()
   set wrap
