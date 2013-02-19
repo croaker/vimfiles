@@ -104,6 +104,12 @@ if has("autocmd")
   " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
   au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
 
+  " Simplified Help
+  au filetype help nnoremap <buffer><cr> <c-]>
+  au filetype help nnoremap <buffer><bs> <c-T>
+  au filetype help nnoremap <buffer>q :q<CR>
+  au filetype help set nonumber
+
   " Remove trailing whitespace
   autocmd FileType ruby,javascipt,coffee,eruby,c,cpp,java,php,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
@@ -140,31 +146,6 @@ nnoremap <cr> :nohlsearch<cr>  " clear search on return
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
-
-"" Inlining variables
-function! InlineVariable()
-    " Copy the variable under the cursor into the 'a' register
-    :let l:tmp_a = @a
-    :normal "ayiw
-    " Delete variable and equals sign
-    :normal 2daW
-    " Delete the expression into the 'b' register
-    :let l:tmp_b = @b
-    :normal "bd$
-    " Delete the remnants of the line
-    :normal dd
-    " Go to the end of the previous line so we can start our search for the
-    " usage of the variable to replace. Doing '0' instead of 'k$' doesn't
-    " work; I'm not sure why.
-    normal k$
-    " Find the next occurence of the variable
-    exec '/\<' . @a . '\>'
-    " Replace that occurence with the text we yanked
-    exec ':.s/\<' . @a . '\>/' . @b
-    :let @a = l:tmp_a
-    :let @b = l:tmp_b
-endfunction
-nnoremap <leader>ri :call InlineVariable()<cr>
 
 "" Jumping to files
 map <leader>gr :topleft :split config/routes.rb<cr>
@@ -218,28 +199,5 @@ if has("statusline") && !&cp
   set statusline=%<%f\ [%{&ft}]\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 endif
 
-"" Moving around
-map <silent><leader>tn :tabnext<CR>
-map <silent><leader>tp :tabprev<CR>
-
 "" Make :W behave the same as :w
 cnoreabbrev W w
-
-"" vimux
-" Run the current file with rspec
-map <leader>rb :call RunVimTmuxCommand("clear; rspec " . bufname("%"))<CR>
-
-" Prompt for a command to run
-map <leader>rp :PromptVimTmuxCommand<CR>
-
-" Run last command executed by RunVimTmuxCommand
-map <leader>rl :RunLastVimTmuxCommand<CR>
-
-" Inspect runner pane
-map <leader>ri :InspectVimTmuxRunner<CR>
-
-" Close all other tmux panes in current window
-map <leader>rx :CloseVimTmuxPanes<CR>
-
-" Interrupt any command running in the runner pane
-map <leader>rs :InterruptVimTmuxRunner<CR>
