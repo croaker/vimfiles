@@ -1,12 +1,8 @@
-task :default => [:tmp_dirs, :update, :link, :command_t]
+task :default => [:tmp_dirs, :bundle, :link, :command_t]
 
-task :update do
-  sh "git submodule update --init"
-end
-
-desc "Updates all submodules to the latest version"
-task :pull_submodules do
-  sh "git submodule foreach git pull origin master"
+desc "Install or update all bundled scripts"
+task :bundle do
+  sh "vim +BundleInstall +qall"
 end
 
 task :link do

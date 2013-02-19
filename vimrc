@@ -1,6 +1,6 @@
 "" Initialization
 set nocp
-cal pathogen#infect()
+filetype off
 
 "" Clipboard
 set clipboard=unnamed
@@ -12,6 +12,36 @@ let mapleader=","
 
 set background=light
 color solarized
+
+"" Bundles
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'mileszs/ack'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'tpope/vim-commentary'
+Bundle 'ap/vim-css-color'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'tpope/vim-cucumber'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-haml'
+Bundle 'groenewege/vim-less'
+Bundle 'tpope/vim-markdown'
+Bundle 'scrooloose/nerdtree'
+Bundle 'mmalecki/vim-node.js'
+Bundle 'ajf/puppet-vim'
+Bundle 'tpope/vim-ragtag'
+Bundle 'tpope/vim-rails'
+Bundle 'danro/rename.vim'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'ervandew/supertab'
+Bundle 'tpope/vim-surround'
+Bundle 'Align'
+
 
 syntax enable
 set encoding=utf-8
