@@ -18,7 +18,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'mileszs/ack'
+Bundle 'mileszs/ack.vim'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-commentary'
 Bundle 'ap/vim-css-color'
@@ -40,8 +40,8 @@ Bundle 'vim-ruby/vim-ruby'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-surround'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'Align'
-
 
 syntax enable
 set encoding=utf-8
@@ -201,3 +201,6 @@ endif
 
 "" Make :W behave the same as :w
 cnoreabbrev W w
+
+"" Make gitgutter's highlighting a little less painfull
+highlight clear SignColumn
