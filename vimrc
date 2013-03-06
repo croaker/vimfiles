@@ -199,6 +199,9 @@ if has("statusline") && !&cp
   set statusline=%<%f\ [%{&ft}]\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 endif
 
+"" Use silver searcher instead of ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 "" Make :W behave the same as :w
 cnoreabbrev W w
 
