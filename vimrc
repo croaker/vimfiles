@@ -41,6 +41,7 @@ Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-surround'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'sjl/vitality.vim'
 Bundle 'Align'
 
 syntax enable
