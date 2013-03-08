@@ -42,6 +42,7 @@ Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-surround'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'sjl/vitality.vim'
+Bundle 'wikitopian/hardmode'
 Bundle 'Align'
 
 syntax enable
