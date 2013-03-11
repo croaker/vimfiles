@@ -2,7 +2,7 @@ task :default => [:tmp_dirs, :bundle, :link, :command_t]
 
 desc "Install or update all bundled scripts"
 task :bundle do
-  sh "vim +BundleInstall +qall"
+  sh "vim +BundleInstall +qall > /dev/null"
 end
 
 task :link do
