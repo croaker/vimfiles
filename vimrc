@@ -207,5 +207,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 "" Make :W behave the same as :w
 cnoreabbrev W w
 
-"" Make gitgutter's highlighting a little less painfull
+"" Git Gutter
+let g:gitgutter_sign_column_always = 1
 highlight clear SignColumn
