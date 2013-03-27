@@ -208,5 +208,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 cnoreabbrev W w
 
 "" Git Gutter
-let g:gitgutter_sign_column_always = 1
+let g:gitgutter_enabled = 0
+let g:gitgutter_sign_column_always = 0
 highlight clear SignColumn
