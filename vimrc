@@ -43,6 +43,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'sjl/vitality.vim'
 Bundle 'wikitopian/hardmode'
+Bundle 'thoughtbot/vim-rspec'
 Bundle 'Align'
 
 syntax enable
