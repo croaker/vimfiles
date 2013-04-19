@@ -20,28 +20,27 @@ call vundle#rc()
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'mileszs/ack.vim'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'tpope/vim-commentary'
 Bundle 'ap/vim-css-color'
 Bundle 'hail2u/vim-css3-syntax'
-Bundle 'tpope/vim-cucumber'
+Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-haml'
-Bundle 'groenewege/vim-less'
-Bundle 'tpope/vim-markdown'
-Bundle 'scrooloose/nerdtree'
-Bundle 'mmalecki/vim-node.js'
-Bundle 'ajf/puppet-vim'
+Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-ragtag'
 Bundle 'tpope/vim-rails'
-Bundle 'danro/rename.vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-cucumber'
+Bundle 'tpope/vim-dispatch'
+Bundle 'groenewege/vim-less'
+Bundle 'scrooloose/nerdtree'
+Bundle 'mmalecki/vim-node.js'
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'ajf/puppet-vim'
 Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-surround'
 Bundle 'airblade/vim-gitgutter'
-Bundle 'sjl/vitality.vim'
 Bundle 'wikitopian/hardmode'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'Align'
@@ -52,7 +51,12 @@ set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
 
-"" No fucking arrow-keys
+"" Keep the scrollback clean
+"  http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
+
+"" Keymaps
+" No fucking arrow-keys
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
 inoremap  <Left>   <NOP>
@@ -61,6 +65,24 @@ noremap   <Up>     <NOP>
 noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
+
+" Move around splits with <c-hjkl>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" Rename file
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
+endfunction
+map <leader>n :call RenameFile()<cr>
 
 "" Cursorline
 hi CursorLine cterm=NONE term=NONE
@@ -175,8 +197,7 @@ map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
 map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
 map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts
+map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts<cr>
 map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
@@ -185,6 +206,8 @@ map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 set wildignore+=vendor/*,build/*
+set wildmode=longest,list
+set wildmenu
 
 let g:CommandTMaxHeight=15
 let g:CommandTMaxFiles=20000
