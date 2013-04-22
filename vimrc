@@ -51,10 +51,6 @@ set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
 
-"" Keep the scrollback clean
-"  http://www.shallowsky.com/linux/noaltscreen.html
-set t_ti= t_te=
-
 "" Keymaps
 " No fucking arrow-keys
 inoremap  <Up>     <NOP>
