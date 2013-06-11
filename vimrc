@@ -43,6 +43,7 @@ Bundle 'ervandew/supertab'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'wikitopian/hardmode'
 Bundle 'thoughtbot/vim-rspec'
+Bundle 'vim-scripts/ZoomWin'
 Bundle 'Align'
 
 syntax enable
