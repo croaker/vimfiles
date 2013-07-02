@@ -45,6 +45,7 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'wikitopian/hardmode'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'vim-scripts/ZoomWin'
+Bundle 'lepture/vim-jinja'
 Bundle 'Align'
 
 syntax enable
@@ -103,7 +104,7 @@ function s:setupWrapping()
 endfunction
 
 " Removes trailing whitespace
-fun! <SID>StripTrailingWhitespaces()
+fun! StripTrailingWhitespaces()
   let line = line(".")
   let col = col(".")
   let search = @/
@@ -134,7 +135,7 @@ if has("autocmd")
   au filetype help set nonumber
 
   " Remove trailing whitespace
-  autocmd FileType ruby,javascipt,coffee,eruby,c,cpp,java,php,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+  autocmd FileType ruby,javascipt,coffee,eruby,c,cpp,java,php,vim autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
 
   " Remember last location in file, but not for commit messages.
   " see :help last-position-jump
@@ -172,24 +173,6 @@ map <leader>v :view %%
 
 "" Jumping to files
 map <leader>gr :topleft :split config/routes.rb<cr>
-function! ShowRoutes()
-  " Requires 'scratch' plugin
-  :topleft 100 :split __Routes__
-  " Make sure Vim doesn't write __Routes__ as a file
-  :set buftype=nofile
-  " Delete everything
-  :normal 1GdG
-  " Put routes output in buffer
-  :0r! rake -s routes
-  " Size window to number of lines (1 plus rake output length)
-  :exec ":normal " . line("$") . _ "
-  " Move cursor to bottom
-  :normal 1GG
-  " Delete empty trailing line
-  :normal dd
-endfunction
-
-map <leader>gr :call ShowRoutes()<cr>
 map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
 map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
 map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
@@ -198,8 +181,8 @@ map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts<cr>
 map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>gt :CommandTFlush<cr>\|:CommandT spec<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
-map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
@@ -223,9 +206,6 @@ if has("statusline") && !&cp
   set statusline=%<%f\ [%{&ft}]\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 endif
 
-"" Use silver searcher instead of ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 "" Make :W behave the same as :w
 cnoreabbrev W w
 
@@ -233,3 +213,8 @@ cnoreabbrev W w
 let g:gitgutter_enabled = 0
 let g:gitgutter_sign_column_always = 0
 highlight clear SignColumn
+
+"" rspec.vim
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
