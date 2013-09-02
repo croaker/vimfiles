@@ -46,6 +46,7 @@ Bundle 'wikitopian/hardmode'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'vim-scripts/ZoomWin'
 Bundle 'lepture/vim-jinja'
+Bundle 'bling/vim-airline'
 Bundle 'Align'
 
 syntax enable
@@ -53,6 +54,8 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
+
+let g:airline_powerline_fonts = 1
 
 "" Keymaps
 " No fucking arrow-keys
