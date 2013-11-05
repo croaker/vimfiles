@@ -47,7 +47,12 @@ Bundle 'thoughtbot/vim-rspec'
 Bundle 'vim-scripts/ZoomWin'
 Bundle 'lepture/vim-jinja'
 Bundle 'bling/vim-airline'
-Bundle 'Align'
+Bundle 'scrooloose/syntastic'
+Bundle 'chrisbra/csv.vim'
+Bundle 'stefanoverna/vim-i18n'
+Bundle 'kana/vim-textobj-user'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'godlygeek/tabular'
 
 syntax enable
 set encoding=utf-8
@@ -73,6 +78,35 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+" Make :W behave the same as :w
+cnoreabbrev W w
+
+" rspec.vim
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+
+" Tabularize stuff
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 " Rename file
 function! RenameFile()
@@ -209,15 +243,7 @@ if has("statusline") && !&cp
   set statusline=%<%f\ [%{&ft}]\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 endif
 
-"" Make :W behave the same as :w
-cnoreabbrev W w
-
 "" Git Gutter
 let g:gitgutter_enabled = 0
 let g:gitgutter_sign_column_always = 0
 highlight clear SignColumn
-
-"" rspec.vim
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
