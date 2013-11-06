@@ -5,7 +5,7 @@ task :bundle do
   sh "vim +BundleInstall +qall > /dev/null"
 end
 
-task :submodule do
+task :submodules do
   %w(init update).each { |cmd| sh "git submodule #{cmd}" }
 end
 
