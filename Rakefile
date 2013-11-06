@@ -1,8 +1,12 @@
-task :default => [:tmp_dirs, :bundle, :link, :command_t]
+task :default => [:submodules, :tmp_dirs, :link, :bundle, :command_t]
 
 desc "Install or update all bundled scripts"
 task :bundle do
   sh "vim +BundleInstall +qall > /dev/null"
+end
+
+task :submodule do
+  %w(init update).each { |cmd| sh "git submodule #{cmd}" }
 end
 
 task :link do
