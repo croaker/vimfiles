@@ -1,6 +1,7 @@
 "" Initialization
 set nocp
 filetype off
+set history=10000
 
 "" Clipboard
 set clipboard=unnamed
@@ -13,12 +14,15 @@ let mapleader=","
 set background=light
 color solarized
 
+"" Matchit
+runtime macros/matchit.vim
+
 "" Bundles
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'mileszs/ack.vim'
+Bundle 'rking/ag.vim'
+Bundle 'kien/ctrlp.vim'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'ap/vim-css-color'
 Bundle 'hail2u/vim-css3-syntax'
@@ -53,6 +57,7 @@ Bundle 'stefanoverna/vim-i18n'
 Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
 Bundle 'godlygeek/tabular'
+Bundle 'mustache/vim-mustache-handlebars'
 
 syntax enable
 set encoding=utf-8
@@ -60,9 +65,16 @@ set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
 
-let g:airline_powerline_fonts = 1
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols = {'branch': '⭠', 'readonly': '⭤', 'linenr': '⭡'}
 
 "" Keymaps
+" let's replace hash rockets with the new syntax
+nnoremap <Leader>hr :%s/:\(\w\+\)\(\s*=>\s*\)/\1: /gc<CR>
+
 " No fucking arrow-keys
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
@@ -208,34 +220,29 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
+"" CtrlP config
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_use_caching = 0
+
 "" Jumping to files
 map <leader>gr :topleft :split config/routes.rb<cr>
-map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
-map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-map <leader>gt :CommandTFlush<cr>\|:CommandT spec<cr>
+map <leader>gR :call ShowRoutes()<cr>
+map <leader>gv :CtrlP app/views<cr>
+map <leader>gc :CtrlP app/controllers<cr>
+map <leader>gm :CtrlP app/models<cr>
+map <leader>gh :CtrlP app/helpers<cr>
+map <leader>gl :CtrlP lib<cr>
+map <leader>gp :CtrlP public<cr>
+map <leader>gs :CtrlP public/stylesheets/sass<cr>
+map <leader>gf :CtrlP features<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+map <leader>gt :CtrlPTag<cr>
+map <leader>f :CtrlP<cr>
+map <leader>F :CtrlP %%<cr>
 
 set wildignore+=vendor/*,build/*
 set wildmode=longest,list
 set wildmenu
-
-let g:CommandTMaxHeight=15
-let g:CommandTMaxFiles=20000
-set ttimeoutlen=50
-
-if &term =~ "xterm" || &term =~ "screen"
-  let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
-  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-endif
 
 "" Status- and Powerline
 if has("statusline") && !&cp
@@ -244,6 +251,6 @@ if has("statusline") && !&cp
 endif
 
 "" Git Gutter
-let g:gitgutter_enabled = 0
-let g:gitgutter_sign_column_always = 0
+let g:gitgutter_enabled = 1
+let g:gitgutter_sign_column_always = 1
 highlight clear SignColumn
