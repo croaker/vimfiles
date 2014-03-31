@@ -171,6 +171,12 @@ if has("autocmd")
   " Make sure all markdown files have the correct filetype set and setup wrapping
   au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown | call s:setupWrapping()
 
+  " j2 files are jinja templates
+  au BufNewFile,BufRead *.j2 set ft=jinja
+
+  " cap files are just rake files
+  au BufNewFile,BufRead *.cap set ft=ruby
+
   " Treat JSON files like JavaScript
   au BufNewFile,BufRead *.json set ft=javascript
 
