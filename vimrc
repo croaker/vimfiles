@@ -76,6 +76,9 @@ let g:airline#extensions#tabline#enabled = 1
 " let's replace hash rockets with the new syntax
 nnoremap <Leader>hr :%s/:\(\w\+\)\(\s*=>\s*\)/\1: /gc<CR>
 
+" Stript trailing whitespace
+nnoremap <Leader>ws :call StripTrailingWhitespaces()<CR>
+
 " No fucking arrow-keys
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
