@@ -58,6 +58,7 @@ Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
 Bundle 'godlygeek/tabular'
 Bundle 'mustache/vim-mustache-handlebars'
+Bundle 't9md/vim-ruby-xmpfilter'
 
 syntax enable
 set encoding=utf-8
@@ -112,6 +113,19 @@ if exists(":Tabularize")
 endif
 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+" xmpfilter
+autocmd FileType ruby nmap <buffer> <Leader>xm <Plug>(seeing_is_believing-mark)
+autocmd FileType ruby xmap <buffer> <Leader>xm <Plug>(seeing_is_believing-mark)
+autocmd FileType ruby imap <buffer> <Leader>xm <Plug>(seeing_is_believing-mark)
+
+autocmd FileType ruby nmap <buffer> <Leader>xr <Plug>(seeing_is_believing-clean)
+autocmd FileType ruby xmap <buffer> <Leader>xr <Plug>(seeing_is_believing-clean)
+autocmd FileType ruby imap <buffer> <Leader>xr <Plug>(seeing_is_believing-clean)
+
+autocmd FileType ruby nmap <buffer> <Leader>xr <Plug>(seeing_is_believing-run)
+autocmd FileType ruby xmap <buffer> <Leader>xr <Plug>(seeing_is_believing-run)
+autocmd FileType ruby imap <buffer> <Leader>xr <Plug>(seeing_is_believing-run)
 
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
