@@ -2,6 +2,7 @@
 set nocp
 filetype off
 set history=10000
+set laststatus=2
 
 "" Clipboard
 set clipboard=unnamed
@@ -18,47 +19,48 @@ color solarized
 runtime macros/matchit.vim
 
 "" Bundles
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-Bundle 'rking/ag.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'ap/vim-css-color'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-ragtag'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-bundler'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-cucumber'
-Bundle 'tpope/vim-dispatch'
-Bundle 'groenewege/vim-less'
-Bundle 'scrooloose/nerdtree'
-Bundle 'mmalecki/vim-node.js'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'ajf/puppet-vim'
-Bundle 'ervandew/supertab'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'wikitopian/hardmode'
-Bundle 'thoughtbot/vim-rspec'
-Bundle 'vim-scripts/ZoomWin'
-Bundle 'lepture/vim-jinja'
-Bundle 'bling/vim-airline'
-Bundle 'scrooloose/syntastic'
-Bundle 'chrisbra/csv.vim'
-Bundle 'stefanoverna/vim-i18n'
-Bundle 'kana/vim-textobj-user'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'godlygeek/tabular'
-Bundle 'mustache/vim-mustache-handlebars'
-Bundle 't9md/vim-ruby-xmpfilter'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'rking/ag.vim'
+Plugin 'ap/vim-css-color'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-haml'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-ragtag'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-bundler'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-cucumber'
+Plugin 'tpope/vim-dispatch'
+Plugin 'groenewege/vim-less'
+Plugin 'scrooloose/nerdtree'
+Plugin 'mmalecki/vim-node.js'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'ajf/puppet-vim'
+Plugin 'ervandew/supertab'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'wikitopian/hardmode'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'vim-scripts/ZoomWin'
+Plugin 'lepture/vim-jinja'
+Plugin 'bling/vim-airline'
+Plugin 'scrooloose/syntastic'
+Plugin 'chrisbra/csv.vim'
+Plugin 'stefanoverna/vim-i18n'
+Plugin 'kana/vim-textobj-user'
+Plugin 'nelstrom/vim-textobj-rubyblock'
+Plugin 'godlygeek/tabular'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'cakebaker/scss-syntax.vim'
+
+call vundle#end()
 
 syntax enable
 set encoding=utf-8
@@ -96,9 +98,6 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" Make :W behave the same as :w
-cnoreabbrev W w
-
 " rspec.vim
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
@@ -113,19 +112,6 @@ if exists(":Tabularize")
 endif
 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-
-" xmpfilter
-autocmd FileType ruby nmap <buffer> <Leader>xm <Plug>(seeing_is_believing-mark)
-autocmd FileType ruby xmap <buffer> <Leader>xm <Plug>(seeing_is_believing-mark)
-autocmd FileType ruby imap <buffer> <Leader>xm <Plug>(seeing_is_believing-mark)
-
-autocmd FileType ruby nmap <buffer> <Leader>xr <Plug>(seeing_is_believing-clean)
-autocmd FileType ruby xmap <buffer> <Leader>xr <Plug>(seeing_is_believing-clean)
-autocmd FileType ruby imap <buffer> <Leader>xr <Plug>(seeing_is_believing-clean)
-
-autocmd FileType ruby nmap <buffer> <Leader>xr <Plug>(seeing_is_believing-run)
-autocmd FileType ruby xmap <buffer> <Leader>xr <Plug>(seeing_is_believing-run)
-autocmd FileType ruby imap <buffer> <Leader>xr <Plug>(seeing_is_believing-run)
 
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
@@ -244,35 +230,77 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
-"" CtrlP config
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_use_caching = 0
+"" File selection
+function! SelectaCommand(choice_command, selecta_args, vim_command)
+  try
+    silent let selection = system(a:choice_command . " | selecta " . a:selecta_args)
+  catch /Vim:Interrupt/
+    " Swallow the ^C so that the redraw below happens; otherwise there will be
+    " leftovers from selecta on the screen
+    redraw!
+    return
+  endtry
+  redraw!
+  exec a:vim_command . " " . selection
+endfunction
 
-"" Jumping to files
-map <leader>gr :topleft :split config/routes.rb<cr>
-map <leader>gR :call ShowRoutes()<cr>
-map <leader>gv :CtrlP app/views<cr>
-map <leader>gc :CtrlP app/controllers<cr>
-map <leader>gm :CtrlP app/models<cr>
-map <leader>gh :CtrlP app/helpers<cr>
-map <leader>gl :CtrlP lib<cr>
-map <leader>gp :CtrlP public<cr>
-map <leader>gs :CtrlP public/stylesheets/sass<cr>
-map <leader>gf :CtrlP features<cr>
-map <leader>gg :topleft 100 :split Gemfile<cr>
-map <leader>gt :CtrlPTag<cr>
-map <leader>f :CtrlP<cr>
-map <leader>F :CtrlP %%<cr>
+function! SelectaFile(path)
+  call SelectaCommand("ag -l --nocolor -g" . a:path, "", ":e")
+endfunction
+
+nnoremap <leader>f :call SelectaFile(".")<cr>
+nnoremap <leader>gv :call SelectaFile("app/views")<cr>
+nnoremap <leader>gc :call SelectaFile("app/controllers")<cr>
+nnoremap <leader>gm :call SelectaFile("app/models")<cr>
+nnoremap <leader>gh :call SelectaFile("app/helpers")<cr>
+nnoremap <leader>gl :call SelectaFile("lib")<cr>
+nnoremap <leader>gj :call SelectaFile("app/assets/javascripts")<cr>
+nnoremap <leader>gs :call SelectaFile("app/assets//stylesheets")<cr>
+nnoremap <leader>gf :call SelectaFile("features")<cr>
+nnoremap <leader>gt :call SelectaFile("specs")<cr>
 
 set wildignore+=vendor/*,build/*
 set wildmode=longest,list
 set wildmenu
 
-"" Status- and Powerline
-if has("statusline") && !&cp
-  set laststatus=2  " always show the status bar
-  set statusline=%<%f\ [%{&ft}]\ %-4(%m%)%=%-19(%3l,%02c%03V%)
-endif
+"" Quickfix stuff
+function! GetBufferList()
+  redir =>buflist
+  silent! ls
+  redir END
+  return buflist
+endfunction
+
+function! BufferIsOpen(bufname)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      return 1
+    endif
+  endfor
+  return 0
+endfunction
+
+function! ToggleQuickfix()
+  if BufferIsOpen("Quickfix List")
+    cclose
+  else
+    call OpenQuickfix()
+  endif
+endfunction
+
+function! OpenQuickfix()
+  cgetfile tmp/quickfix
+  topleft cwindow
+  if &ft == "qf"
+      cc
+  endif
+endfunction
+
+nnoremap <leader>q :call ToggleQuickfix()<cr>
+nnoremap <leader>Q :cc<cr>
+nnoremap <leader>j :cnext<cr>
+nnoremap <leader>k :cprev<cr>
 
 "" Git Gutter
 let g:gitgutter_enabled = 1
