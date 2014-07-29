@@ -82,6 +82,9 @@ nnoremap <Leader>hr :%s/:\(\w\+\)\(\s*=>\s*\)/\1: /gc<CR>
 " Stript trailing whitespace
 nnoremap <Leader>ws :call StripTrailingWhitespaces()<CR>
 
+" Open a new tab
+nnoremap <Leader>nt :tabnew<CR>
+
 " No fucking arrow-keys
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
@@ -99,6 +102,7 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " rspec.vim
+let g:rspec_runner = "os_x_iterm"
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
@@ -230,7 +234,7 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
-"" File selection
+"" File selection with selecta
 function! SelectaCommand(choice_command, selecta_args, vim_command)
   try
     silent let selection = system(a:choice_command . " | selecta " . a:selecta_args)
@@ -245,7 +249,13 @@ function! SelectaCommand(choice_command, selecta_args, vim_command)
 endfunction
 
 function! SelectaFile(path)
-  call SelectaCommand("ag -l --nocolor -g" . a:path, "", ":e")
+  " Edit in an empty window, otherwise open a new tab
+  let vim_command = ":tabe"
+  if len(expand('%')) == 0
+    let vim_command = ":e"
+  endif
+
+  call SelectaCommand("ag -l --nocolor -g" . a:path, "", vim_command)
 endfunction
 
 nnoremap <leader>f :call SelectaFile(".")<cr>
@@ -262,45 +272,6 @@ nnoremap <leader>gt :call SelectaFile("specs")<cr>
 set wildignore+=vendor/*,build/*
 set wildmode=longest,list
 set wildmenu
-
-"" Quickfix stuff
-function! GetBufferList()
-  redir =>buflist
-  silent! ls
-  redir END
-  return buflist
-endfunction
-
-function! BufferIsOpen(bufname)
-  let buflist = GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      return 1
-    endif
-  endfor
-  return 0
-endfunction
-
-function! ToggleQuickfix()
-  if BufferIsOpen("Quickfix List")
-    cclose
-  else
-    call OpenQuickfix()
-  endif
-endfunction
-
-function! OpenQuickfix()
-  cgetfile tmp/quickfix
-  topleft cwindow
-  if &ft == "qf"
-      cc
-  endif
-endfunction
-
-nnoremap <leader>q :call ToggleQuickfix()<cr>
-nnoremap <leader>Q :cc<cr>
-nnoremap <leader>j :cnext<cr>
-nnoremap <leader>k :cprev<cr>
 
 "" Git Gutter
 let g:gitgutter_enabled = 1
