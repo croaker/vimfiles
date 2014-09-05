@@ -1,4 +1,4 @@
-task :default => [:submodules, :tmp_dirs, :link, :bundle, :command_t]
+task :default => [:submodules, :tmp_dirs, :link, :bundle]
 
 desc "Install or update all bundled scripts"
 task :bundle do
@@ -30,23 +30,4 @@ end
 task :tmp_dirs do
   mkdir_p "_backup"
   mkdir_p "_temp"
-end
-
-task :command_t do
-  puts "Compiling Command-T plugin..."
-  Dir.chdir "bundle/command-t/ruby/command-t" do
-    # first try to read which ruby version is vim compiled against
-    read_version = %{require "rbconfig"; print File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"])}
-    ruby = `vim --cmd 'ruby #{read_version}' --cmd 'q' 2>&1 >/dev/null | grep -v 'Vim: Warning'`.strip
-
-    # If we don't have a working ruby, detect one
-    unless File.executable?(ruby)
-      # This tries to prefer custom rubies
-      ruby = %w(/usr/local/bin/ruby /usr/bin/ruby /usr/bin/ruby1.8).find {|rb| File.executable? rb } || 'ruby'
-    end
-
-    cmd = [ruby, 'extconf.rb']
-    sh(*cmd)
-    sh "make clean && make"
-  end
 end
