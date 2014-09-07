@@ -1,4 +1,4 @@
-" set guifont=Menlo\ Regular:h12
+set guifont=Monaco\ for\ Powerline:h13
 set linespace=2
 set antialias
 
