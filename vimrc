@@ -12,9 +12,6 @@ set directory=~/.vim/_temp      " where to put swap files.
 
 let mapleader=","
 
-set background=light
-color solarized
-
 "" Matchit
 runtime macros/matchit.vim
 
@@ -61,8 +58,14 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'kien/ctrlp.vim'
+Plugin 'vim-scripts/BusyBee'
+Plugin 'tomasr/molokai'
+Plugin 'sjl/badwolf'
 
 call vundle#end()
+
+set background=dark
+color badwolf
 
 syntax enable
 set encoding=utf-8
