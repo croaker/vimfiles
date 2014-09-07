@@ -39,6 +39,7 @@ Plugin 'tpope/vim-cucumber'
 Plugin 'tpope/vim-dispatch'
 Plugin 'groenewege/vim-less'
 Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'mmalecki/vim-node.js'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'ajf/puppet-vim'
@@ -59,6 +60,7 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'kien/ctrlp.vim'
 
 call vundle#end()
 
@@ -234,40 +236,24 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
-"" File selection with selecta
-function! SelectaCommand(choice_command, selecta_args, vim_command)
-  try
-    silent let selection = system(a:choice_command . " | selecta " . a:selecta_args)
-  catch /Vim:Interrupt/
-    " Swallow the ^C so that the redraw below happens; otherwise there will be
-    " leftovers from selecta on the screen
-    redraw!
-    return
-  endtry
-  redraw!
-  exec a:vim_command . " " . selection
-endfunction
+"" File selection
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_use_caching = 0
 
-function! SelectaFile(path)
-  " Edit in an empty window, otherwise open a new tab
-  let vim_command = ":tabe"
-  if len(expand('%')) == 0
-    let vim_command = ":e"
-  endif
-
-  call SelectaCommand("ag -l --nocolor -g" . a:path, "", vim_command)
-endfunction
-
-nnoremap <leader>f :call SelectaFile(".")<cr>
-nnoremap <leader>gv :call SelectaFile("app/views")<cr>
-nnoremap <leader>gc :call SelectaFile("app/controllers")<cr>
-nnoremap <leader>gm :call SelectaFile("app/models")<cr>
-nnoremap <leader>gh :call SelectaFile("app/helpers")<cr>
-nnoremap <leader>gl :call SelectaFile("lib")<cr>
-nnoremap <leader>gj :call SelectaFile("app/assets/javascripts")<cr>
-nnoremap <leader>gs :call SelectaFile("app/assets//stylesheets")<cr>
-nnoremap <leader>gf :call SelectaFile("features")<cr>
-nnoremap <leader>gt :call SelectaFile("specs")<cr>
+"" Jumping to files
+map <leader>gv :CtrlP app/views<cr>
+map <leader>gc :CtrlP app/controllers<cr>
+map <leader>gm :CtrlP app/models<cr>
+map <leader>gh :CtrlP app/helpers<cr>
+map <leader>gl :CtrlP lib<cr>
+map <leader>ga :CtrlP assets<cr>
+map <leader>gs :CtrlP assets/stylesheets<cr>
+map <leader>gj :CtrlP assets/javascripts<cr>
+map <leader>gg :topleft 100 :split Gemfile<cr>
+map <leader>gr :topleft :split config/routes.rb<cr>
+map <leader>gt :CtrlPTag<cr>
+map <leader>f :CtrlP<cr>
+map <leader>F :CtrlP %%<cr>
 
 set wildignore+=vendor/*,build/*
 set wildmode=longest,list
