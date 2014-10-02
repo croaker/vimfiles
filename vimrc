@@ -36,7 +36,6 @@ Plugin 'tpope/vim-cucumber'
 Plugin 'tpope/vim-dispatch'
 Plugin 'groenewege/vim-less'
 Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'mmalecki/vim-node.js'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'ajf/puppet-vim'
@@ -61,11 +60,12 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'vim-scripts/BusyBee'
 Plugin 'tomasr/molokai'
 Plugin 'sjl/badwolf'
+Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
 call vundle#end()
 
 set background=dark
-color badwolf
+color tomorrow-night
 
 syntax enable
 set encoding=utf-8
