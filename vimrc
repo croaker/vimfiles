@@ -145,6 +145,11 @@ function! RenameFile()
 endfunction
 map <leader>n :call RenameFile()<cr>
 
+" Easier pasting
+noremap <Leader>p "0p
+vnoremap <Leader>p "0p
+noremap <Leader>P "0P
+
 "" Cursorline
 hi CursorLine cterm=NONE term=NONE
 
