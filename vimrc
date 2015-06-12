@@ -20,41 +20,47 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
+
 Plugin 'rking/ag.vim'
-Plugin 'ap/vim-css-color'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-ragtag'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-bundler'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-cucumber'
-Plugin 'tpope/vim-dispatch'
-Plugin 'groenewege/vim-less'
-Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-fugitive'
 Plugin 'ervandew/supertab'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'wikitopian/hardmode'
-Plugin 'thoughtbot/vim-rspec'
-Plugin 'vim-scripts/ZoomWin'
-Plugin 'lepture/vim-jinja'
 Plugin 'bling/vim-airline'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
-Plugin 'chrisbra/csv.vim'
 Plugin 'kana/vim-textobj-user'
-Plugin 'nelstrom/vim-textobj-rubyblock'
 Plugin 'godlygeek/tabular'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'nelstrom/vim-qargs'
+Plugin 'osyo-manga/vim-over'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'vim-scripts/ZoomWin'
+
+Plugin 'tpope/vim-dispatch'
+Plugin 'thoughtbot/vim-rspec'
+
+" Languages & syntax
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'vim-scripts/JavaScript-Indent'
-Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'kchmck/vim-coffee-script'
+
+Plugin 'tpope/vim-haml'
+Plugin 'slim-template/vim-slim'
+Plugin 'ap/vim-css-color'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+Plugin 'groenewege/vim-less'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'nelstrom/vim-textobj-rubyblock'
+Plugin 'tpope/vim-markdown'
+Plugin 'lepture/vim-jinja'
+Plugin 'chrisbra/csv.vim'
 
 call vundle#end()
 
@@ -100,11 +106,14 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" rspec.vim
+" " rspec.vim
 let g:rspec_runner = "os_x_iterm"
+let g:rspec_command = "Dispatch bin/rspec {spec}"
+
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 
 " Tabularize stuff
 if exists(":Tabularize")
@@ -156,7 +165,8 @@ set tabstop=2 shiftwidth=2               " a tab is two spaces (or set this to 4
 set expandtab                            " use spaces, not tabs (optional)
 set backspace=indent,eol,start           " backspace through everything in insert mode
 set autoindent
-let &colorcolumn=join(range(81,999),",") " Highlight line 80 and above
+
+let &colorcolumn=81
 
 function s:setupWrapping()
   set wrap
@@ -260,6 +270,11 @@ map <leader>F :CtrlP %%<cr>
 set wildignore+=vendor/*,build/*
 set wildmode=longest,list
 set wildmenu
+
+"" Remove key delays
+set noesckeys
+set ttimeout
+set ttimeoutlen=1
 
 "" Git Gutter
 let g:gitgutter_enabled = 1
