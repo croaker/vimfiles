@@ -45,6 +45,7 @@ Plugin 'tpope/vim-dispatch'
 Plugin 'thoughtbot/vim-rspec'
 
 " Languages & syntax
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'jelera/vim-javascript-syntax'
