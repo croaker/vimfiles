@@ -40,6 +40,7 @@ Plugin 'nelstrom/vim-qargs'
 Plugin 'osyo-manga/vim-over'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'vim-scripts/ZoomWin'
+Plugin 'jamessan/vim-gnupg'
 
 Plugin 'tpope/vim-dispatch'
 Plugin 'thoughtbot/vim-rspec'
@@ -62,24 +63,22 @@ Plugin 'nelstrom/vim-textobj-rubyblock'
 Plugin 'tpope/vim-markdown'
 Plugin 'lepture/vim-jinja'
 Plugin 'chrisbra/csv.vim'
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 
 set background=dark
-color tomorrow-night
+color solarized
 
 syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
+set relativenumber
+set lazyredraw
 
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols = {'branch': '⭠', 'readonly': '⭤', 'linenr': '⭡'}
-let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 "" Keymaps
 " let's replace hash rockets with the new syntax
@@ -115,6 +114,11 @@ map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+
+" Vim Go
+let g:godef_split=0
+let g:go_fmt_command='goimports'
+let g:go_autodetect_gopath = 0
 
 " Tabularize stuff
 if exists(":Tabularize")
