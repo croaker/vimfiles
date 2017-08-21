@@ -1,33 +1,40 @@
-task :default => [:submodules, :tmp_dirs, :link, :bundle]
+require "pathname"
 
-desc "Install or update all bundled scripts"
-task :bundle do
-  sh "vim +BundleInstall +qall > /dev/null"
-end
+task :default => [:dirs, :link, :plugins]
 
-task :submodules do
-  %w(init update).each { |cmd| sh "git submodule #{cmd}" }
+VIM_DIR = Pathname.new(File.join(ENV["HOME"], ".vim"))
+CONFIG_DIR = Pathname.new(File.join(ENV["HOME"], ".config"))
+
+desc "Install plugins"
+task :plugins do
+  sh "vim +PlugInstall +qall"
 end
 
 task :link do
-  %w[vimrc gvimrc].each do |script|
-    dotfile = File.join(ENV['HOME'], ".#{script}")
+  %w(vimrc gvimrc).each do |script|
+    target = File.join(ENV['HOME'], ".#{script}")
+    safe_link(VIM_DIR.join(script), target)
+  end
 
-    if File.exist?(dotfile)
-      if File.symlink?(dotfile)
-        puts "~/.#{script} already linked, skipping.."
-        next
-      else
-        puts "~/.#{script} exists, backing up and replacing!"
-        mv dotfile, "#{dotfile}.#{Time.now.to_i}"
-      end
-    end
+  safe_link(VIM_DIR, CONFIG_DIR.join("nvim"))
+end
 
-    ln_s File.join('.vim', script), dotfile
+task :dirs do
+  ["_backup", "_temp", CONFIG_DIR].each do |dir|
+    mkdir_p dir
   end
 end
 
-task :tmp_dirs do
-  mkdir_p "_backup"
-  mkdir_p "_temp"
+def safe_link(source, target)
+  if File.exist?(target)
+    if File.symlink?(target)
+      puts "#{target} already linked, skipping.."
+      return
+    else
+      puts "#{target} exists, backing up and replacing!"
+      mv target, "#{target}.#{Time.now.to_i}"
+    end
+  end
+
+  ln_s source, target
 end
