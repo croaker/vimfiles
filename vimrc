@@ -294,6 +294,10 @@ if has("autocmd")
   " Treat various node configs as JavaScript
   au BufNewFile,BufRead .eslintrc,.babelrc set ft=javascript
 
+  " Treat all JavaScript files as potentially containing JSX
+  au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+  au BufNewFile,BufRead *.js set filetype=javascript.jsx
+
   " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
   au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
 
@@ -406,3 +410,4 @@ hi clear SignColumn
 
 hi def link jsObjectKey Label
 hi link jsObjectBraces Constant
+hi link jsClassProperty jsClassFuncName
