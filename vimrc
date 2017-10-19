@@ -367,6 +367,7 @@ endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
 "" CtrlP
+let g:ctrlp_use_caching = 0
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|buck-out)$',
   \ 'file': '\v\.(exe|so|dll)$',
