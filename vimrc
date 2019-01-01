@@ -37,12 +37,14 @@ Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree'
 Plug 'nelstrom/vim-qargs'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'keith/tmux.vim'
+Plug 'ericpruitt/tmux.vim'
 Plug 'drn/zoomwin-vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'neomake/neomake'
 Plug 'janko-m/vim-test'
 Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
 
 " Languages & syntax
 Plug 'editorconfig/editorconfig-vim'
@@ -64,6 +66,7 @@ Plug 'ap/vim-css-color'
 Plug 'JulesWang/css.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'groenewege/vim-less'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 Plug 'pangloss/vim-javascript'
 Plug 'kchmck/vim-coffee-script'
@@ -73,6 +76,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
 Plug 'glanotte/vim-jasmine'
 Plug 'mustache/vim-mustache-handlebars'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'lambdatoast/elm.vim'
 Plug 'fatih/vim-go'
@@ -91,15 +95,18 @@ call plug#end()
 set background=light
 color solarized
 
+set synmaxcol=128
+syntax sync minlines=256
 syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 set number
-set relativenumber
+" set relativenumber
 set lazyredraw
 set cursorline
 
+"" airline
 let g:airline_powerline_fonts = 1
 
 "" Mouse
@@ -154,6 +161,10 @@ endif
 " Vim JSON
 let g:vim_json_syntax_conceal = 0
 
+" Prettier
+let g:prettier#autoformat = 0
+let g:prettier#exec_cmd_async = 1
+
 " vim-test
 if has('nvim')
   let test#strategy = "neovim"
@@ -182,10 +193,8 @@ map <Leader>d :GoDef<CR>
 map <Leader>gr :GoRun<CR>
 
 "" Neomake
-autocmd! BufWritePost * Neomake
-
 let g:neomake_ruby_rubocop_maker = {
-    \ 'args': ['--format', 'emacs', '--force-exclusion', '--display-cop-names'],
+    \ 'args': ['--except', 'Naming/FileName', '--format', 'emacs', '--force-exclusion', '--display-cop-names'],
     \ 'errorformat': '%f:%l:%c: %t: %m,%E%f:%l: %m',
     \ 'postprocess': function('neomake#makers#ft#ruby#RubocopEntryProcess')
     \ }
@@ -210,18 +219,20 @@ function! NeomakeESlintChecker()
 endfunction
 autocmd FileType javascript :call NeomakeESlintChecker()
 
+let g:neomake_javascript_eslint_maker = {
+      \ 'args': ['--ignore-pattern', "'!.*'", '-f', 'compact'],
+      \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+      \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+      \ 'cwd': '%:p:h',
+      \ }
+
 let g:neomake_javascript_enabled_makers = ['eslint']
 
-let g:neomake_error_sign = {
-        \ 'text': '!',
-        \ 'texthl': 'Title',
-        \ }
+let g:neomake_info_sign = { 'text': '●' }
+let g:neomake_warning_sign = { 'text': '●' }
+let g:neomake_error_sign = { 'text': '●' }
 
-let g:neomake_error_sign = {
-        \ 'text': '●',
-        \ 'texthl': 'Error',
-        \ }
-
+call neomake#configure#automake('rw', 500)
 
 " Ruby
 let ruby_operators = 1
@@ -288,8 +299,8 @@ if has("autocmd")
   " j2 files are jinja templates
   au BufNewFile,BufRead *.j2 set ft=jinja
 
-  " cap files are just rake files
-  au BufNewFile,BufRead *.cap set ft=ruby
+  " cap and Matchfiles files are ruby syntax
+  au BufNewFile,BufRead *.cap,Matchfile set ft=ruby
 
   " Treat various node configs as JavaScript
   au BufNewFile,BufRead .eslintrc,.babelrc set ft=javascript
@@ -366,10 +377,37 @@ function! RemoveFancyCharacters()
 endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
+" "" FZF
+" let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+" let g:fzf_colors =
+" \ { 'fg':      ['fg', 'Normal'],
+"   \ 'bg':      ['bg', 'Normal'],
+"   \ 'hl':      ['fg', 'Identifier'],
+"   \ 'fg+':     ['fg', 'Normal'],
+"   \ 'bg+':     ['bg', 'CursorLine'],
+"   \ 'hl+':     ['fg', 'Identifier'],
+"   \ 'info':    ['fg', 'Comment'],
+"   \ 'border':  ['fg', 'Ignore'],
+"   \ 'prompt':  ['fg', 'Conditional'],
+"   \ 'pointer': ['fg', 'Exception'],
+"   \ 'marker':  ['fg', 'Keyword'],
+"   \ 'spinner': ['fg', 'Label'],
+"   \ 'header':  ['fg', 'Comment'] }
+
+" map <leader>f :Files<cr>
+" map <leader>gv :Files app/views<cr>
+" map <leader>gc :Files app/controllers<cr>
+" map <leader>gm :Files app/models<cr>
+" map <leader>gh :Files app/helpers<cr>
+
 "" CtrlP
+if !has('nvim')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
+
 let g:ctrlp_use_caching = 0
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|buck-out)$',
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|coverage|build|buck-out|Pods)$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
@@ -406,8 +444,15 @@ else
   let g:gitgutter_sign_column_always = 1
 endif
 
+"" Markdown
+let g:vim_markdown_folding_disabled = 1
+
 "" Highlighting
 hi clear SignColumn
+
+hi NeomakeInfoSign ctermfg=4 ctermbg=7
+hi NeomakeWarningSign ctermfg=3 ctermbg=7
+hi NeomakeErrorSign ctermfg=1 ctermbg=7
 
 hi def link jsObjectKey Label
 hi link jsObjectBraces Constant
