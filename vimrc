@@ -563,6 +563,22 @@ else
   let g:gitgutter_sign_column_always = 1
 endif
 
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
+
+nmap <Leader>ha <Plug>GitGutterStageHunk
+nmap <Leader>hr <Plug>GitGutterUndoHunk
+nmap <Leader>hv <Plug>GitGutterPreviewHunk
+
+function! ChangeDiffBase()
+  let new_base = input('New diff base: ', 'head')
+  if new_base != ''
+    let g:gitgutter_diff_base = new_base
+    exec ':GitGutter'
+  endif
+endfunction
+map <leader>hb :call ChangeDiffBase()<cr>
+
 "" Markdown
 let g:vim_markdown_folding_disabled = 1
 
