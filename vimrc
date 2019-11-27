@@ -48,17 +48,15 @@ Plug 'jamessan/vim-gnupg'
 Plug 'neomake/neomake'
 Plug 'janko-m/vim-test'
 Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
 
 " Languages & syntax
 Plug 'editorconfig/editorconfig-vim'
 
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
-Plug 'sheerun/rspec.vim'
+Plug 'keith/rspec.vim'
 Plug 'tpope/vim-liquid'
-Plug 'stephpy/vim-yaml'
+Plug 'mrk21/yaml-vim'
 Plug 'tpope/vim-haml'
 Plug 'slim-template/vim-slim'
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -96,10 +94,17 @@ Plug 'chrisbra/csv.vim'
 Plug 'exu/pgsql.vim'
 Plug 'tpope/vim-git'
 
+Plug 'ayu-theme/ayu-vim'
+Plug 'lifepillar/vim-solarized8'
+
 call plug#end()
 
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+
 set background=light
-color solarized
+color solarized8
 
 set synmaxcol=128
 syntax sync minlines=256
@@ -107,8 +112,8 @@ syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
-set number
-" set relativenumber
+" set number
+set relativenumber
 set lazyredraw
 set cursorline
 
@@ -135,7 +140,10 @@ endfunction
 
 "" Keymaps
 " let's replace hash rockets with the new syntax
-nnoremap <Leader>hr :%s/:\(\w\+\)\(\s*=>\s*\)/\1: /gc<CR>
+nnoremap <Leader>sym :%s/:\(\w\+\)\(\s*=>\s*\)/\1: /gc<CR>
+
+" let's replace symbolized hashes with hash rockets
+nnoremap <Leader>hr :%s/\(\w\+\):\s*/"\1" => /gc<CR>
 
 " Strip trailing whitespace
 nnoremap <Leader>ws :call StripTrailingWhitespaces()<CR>
@@ -160,7 +168,6 @@ nnoremap <leader>nt :NERDTreeToggle<CR>
 
 " Tmux Navigator
 if has('nvim')
-  set shell=$SHELL\ -l
   nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 endif
 
@@ -513,16 +520,16 @@ command! RemoveFancyCharacters :call RemoveFancyCharacters()
 " map <leader>gh :Files app/helpers<cr>
 
 "" CtrlP
-if !has('nvim')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-endif
-
+let g:ctrlp_user_command_async = 1
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 let g:ctrlp_use_caching = 0
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|coverage|build|buck-out|Pods)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|coverage|build|buck-out|Pods)$',
+"   \ 'file': '\v\.(exe|so|dll)$',
+"   \ 'link': 'some_bad_symbolic_links',
+"   \ }
+
 map <leader>gv :CtrlP app/views<cr>
 map <leader>gc :CtrlP app/controllers<cr>
 map <leader>gm :CtrlP app/models<cr>
