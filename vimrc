@@ -57,6 +57,7 @@ Plug 'stephpy/vim-yaml'
 Plug 'tpope/vim-haml'
 Plug 'slim-template/vim-slim'
 Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'joker1007/vim-ruby-heredoc-syntax'
 
 Plug 'chr4/nginx.vim'
 Plug 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
@@ -236,6 +237,12 @@ call neomake#configure#automake('rw', 500)
 
 " Ruby
 let ruby_operators = 1
+
+let g:ruby_heredoc_syntax_filetypes = {
+        \ "graphql" : {
+        \   "start" : "GQL",
+        \},
+  \}
 
 " Tabularize stuff
 if exists(":Tabularize")
