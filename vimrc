@@ -16,6 +16,10 @@ let mapleader=","
 "" Matchit
 runtime macros/matchit.vim
 
+"" Spell checking
+set spelllang=en
+set spellfile=$HOME/Dropbox/Backup/vim-spellfile.en.utf-8.add
+
 "" Plugins
 call plug#begin('~/.vim/plugins')
 
@@ -442,6 +446,9 @@ if has("autocmd")
 
   " Close NERDTree if it's the last open window
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " Spellcheck markdown and git
+  au FileType gitcommit,markdown setlocal spell complete+=kspell
 endif
 
 " List chars
