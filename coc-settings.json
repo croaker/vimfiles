@@ -1,0 +1,13 @@
+{
+  "solargraph.definitions": true,
+  "list.insertMappings": {
+    "<C-s>": "action:split",
+    "<C-t>": "action:tabe",
+    "<C-v>": "action:vsplit"
+  },
+  "git.addedSign.hlGroup": "GitGutterAdd",
+  "git.changedSign.hlGroup": "GitGutterChange",
+  "git.removedSign.hlGroup": "GitGutterDelete",
+  "git.topRemovedSign.hlGroup": "GitGutterDelete",
+  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete"
+}
